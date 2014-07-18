@@ -1,0 +1,13 @@
+---
+/foo:
+    status_code: 200
+    headers:
+        Content-Type: 'application/json'
+    body:
+        - '{"buzz":1}'
+/foo/bar:
+    status_code: 200
+    headers:
+        Content-Type: 'application/json'
+    body:
+        - '{"buzz":1}'
