@@ -1,0 +1,7 @@
+    Request URI  : <%= request.fullpath %>
+    HTTP Method  : <%= request.request_method %>
+    Path         : <%= request.path %>
+    Content Type : <%= request.content_type %>
+    Query        : <%= request.query_string %>
+    Request Body :
+    <%= request.body.read %>

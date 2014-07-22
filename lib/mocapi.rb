@@ -1,6 +1,7 @@
 require "mocapi/version"
 require 'rack/request'
 require 'yaml'
+require 'erb_with_hash'
 
 class Mocapi
   class MockResponse
@@ -65,41 +66,25 @@ class Mocapi
     end
 
     def show_request_detail(request)
-      show <<-EOS
-
-    Request URI  : #{request.fullpath}
-    HTTP Method  : #{request.request_method}
-    Path         : #{request.path}
-    Content Type : #{request.content_type}
-    Query        : #{request.query_string}
-    Request Body :
-    #{request.body.read}
-      EOS
+      erb_text = view_path.join('request.erb').read
+      show ERB.new(erb_text, nil, '-').result_with_hash(request: request.dup)
 
       request.body.rewind
     end
 
     def show_response_detail(response)
-      status_code, headers, body = *response
-      max_length = (headers.keys + ['Response Body']).map(&:length).max
-
-      show <<-EOS
-    #{'Status Code'.ljust(max_length)} : #{status_code}
-      EOS
-
-      headers.each do |key, value|
-        show "    #{key.ljust(max_length)} : #{value}"
-      end
-
-      show <<-EOS
-    #{'Response Body'.ljust(max_length)} :
-    #{body.join('\n')}
-
-      EOS
+      erb_text = view_path.join('response.erb').read
+      show ERB.new(erb_text, nil, '-').result_with_hash(response: response.dup)
     end
 
     def show(str)
       STDOUT.puts str
+    end
+
+    private
+
+    def view_path
+      Pathname.new(__dir__).join('view')
     end
   end
 end

@@ -1,0 +1,9 @@
+<%- status_code, headers, body = *response -%>
+<%- max_length = (headers.keys + ['Response Body']).map(&:length).max -%>
+    <%= 'Status Code'.ljust(max_length) %> : <%= status_code %>
+<%- headers.each do |key, value| -%>
+    <%=  key.ljust(max_length) %> : <%= value %>
+<%- end -%>
+    <%= 'Response Body'.ljust(max_length) %> :
+    <%= body.join('\n') %>
+
