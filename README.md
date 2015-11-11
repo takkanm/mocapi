@@ -32,7 +32,7 @@ run Mocapi::MockResponse.new
 
 ```
 
-so, you can use  mock server, and show request/response.
+so, you can use  mock server, and show `request/response`.
 
 
 ## Contributing
